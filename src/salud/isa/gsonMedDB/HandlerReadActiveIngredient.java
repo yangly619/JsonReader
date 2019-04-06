@@ -4,16 +4,18 @@ import java.io.IOException;
 
 import com.google.gson.stream.JsonReader;
 
-public class HandlerReadMedicine implements Handler{
-	private static final String MEDICINES_TAGNAME = "medicines";
+public class  HandlerReadActiveIngredient implements Handler{
+	
+	private static final String ActiveIng_TAGNAME = "activeIngredients";
 	private static final String NAME_FIELD_TAGNAME = "name";
 	protected Handler next;
-
+	
+	
 	@Override
 	public StringBuffer leer(JsonReader reader,String name) throws IOException  {
 		StringBuffer readData = new StringBuffer();
-		if (name.equals(MEDICINES_TAGNAME) ) {
-			readData.append(readMedicine(reader)).append("\n");
+		if (name.equals(ActiveIng_TAGNAME) ) {
+			readData.append(readActiveIng(reader)).append("\n");
 		}else if(this.getNextHandler()!=null)  {
 			readData=(next.leer(reader,name));
 		}else{
@@ -31,20 +33,20 @@ public class HandlerReadMedicine implements Handler{
 	        return next;
 	    }
 	
-	 private StringBuffer readMedicine(JsonReader reader) throws IOException {
-			StringBuffer ActiveIngData = new StringBuffer();
+	 private StringBuffer readActiveIng(JsonReader reader) throws IOException {
+			StringBuffer medicineData = new StringBuffer();
 			reader.beginArray();
 			while (reader.hasNext()) {
 				reader.beginObject();
-				ActiveIngData.append(readMedicineEntry(reader)).append("\n");
+				medicineData.append(readActiveIngEntry(reader)).append("\n");
 				reader.endObject();
 			}
-			ActiveIngData.append("\n");
+			medicineData.append("\n");
 			reader.endArray();
-			return ActiveIngData;
+			return medicineData;
 		}
-	 private String readMedicineEntry(JsonReader reader) throws IOException {
-
+	 private String readActiveIngEntry(JsonReader reader) throws IOException {
+			//	        reader.require(XmlPullParser.START_TAG, ns, SINGLE_ELEMENT_TAGNAME);
 			String medName = null;
 			while(reader.hasNext()){
 				String name = reader.nextName();

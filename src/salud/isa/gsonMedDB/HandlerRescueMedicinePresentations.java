@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.google.gson.stream.JsonReader;
 
-public class HandlerRescueMedicinePresentations extends Handler{
+public class HandlerRescueMedicinePresentations implements Handler{
 	private static final String MEDREF_FIELD_TAGNAME = "medicineRef";
 	private static final String ACTINGREF_FIELD_TAGNAME = "activeIngRef";
 	private static final String INHREF_FIELD_TAGNAME = "inhalerRef";

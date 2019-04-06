@@ -4,17 +4,12 @@ import java.io.IOException;
 
 import com.google.gson.stream.JsonReader;
 
-public abstract class Handler  {
-	
-	protected Handler nextHandler;
+public interface  Handler  {
 	 
-    public Handler getNextHandler() {
-        return nextHandler;
-    }
+    public Handler getNextHandler();
  
-    public void setNext(Handler nextHandler) {
-        this.nextHandler = nextHandler;
-    }
+    public void setNext(Handler nextHandler);
     
-    public abstract StringBuffer leer(JsonReader reader,String name) throws IOException;
+    public  StringBuffer leer(JsonReader reader,String name) throws IOException;
+   
 }

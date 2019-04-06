@@ -4,16 +4,20 @@ import java.io.IOException;
 
 import com.google.gson.stream.JsonReader;
 
-public class HandlerReadMedicine implements Handler{
-	private static final String MEDICINES_TAGNAME = "medicines";
-	private static final String NAME_FIELD_TAGNAME = "name";
+public abstract class TemplateHander implements Handler {
+	private String TAGNAME;
 	protected Handler next;
-
+	
+	public TemplateHander(String TAGNAME) {
+		this.TAGNAME=TAGNAME;
+		
+	}
+		
 	@Override
 	public StringBuffer leer(JsonReader reader,String name) throws IOException  {
 		StringBuffer readData = new StringBuffer();
-		if (name.equals(MEDICINES_TAGNAME) ) {
-			readData.append(readMedicine(reader)).append("\n");
+		if (name.equals(TAGNAME) ) {
+			readData.append(readData(reader)).append("\n");
 		}else if(this.getNextHandler()!=null)  {
 			readData=(next.leer(reader,name));
 		}else{
@@ -31,32 +35,19 @@ public class HandlerReadMedicine implements Handler{
 	        return next;
 	    }
 	
-	 private StringBuffer readMedicine(JsonReader reader) throws IOException {
+	 private StringBuffer readData(JsonReader reader) throws IOException {
 			StringBuffer ActiveIngData = new StringBuffer();
 			reader.beginArray();
 			while (reader.hasNext()) {
 				reader.beginObject();
-				ActiveIngData.append(readMedicineEntry(reader)).append("\n");
+				ActiveIngData.append(readDataEntry(reader)).append("\n");
 				reader.endObject();
 			}
 			ActiveIngData.append("\n");
 			reader.endArray();
 			return ActiveIngData;
 		}
-	 private String readMedicineEntry(JsonReader reader) throws IOException {
+	 
+	 public abstract String readDataEntry(JsonReader reader)throws IOException;
 
-			String medName = null;
-			while(reader.hasNext()){
-				String name = reader.nextName();
-				switch (name) {
-				case NAME_FIELD_TAGNAME:
-					medName = reader.nextString();
-					break;
-				default:
-					reader.skipValue();
-				}
-			}
-
-			return medName;
-		}
 }
