@@ -9,14 +9,17 @@ public abstract class TemplateHander implements Handler {
 	protected Handler next;
 	
 	public TemplateHander(String TAGNAME) {
-		this.TAGNAME=TAGNAME;
-		
+		this.TAGNAME=TAGNAME;		
 	}
-		
+	
+	public String getTAGNAME() {
+		return TAGNAME;
+	}
+	
 	@Override
 	public StringBuffer leer(JsonReader reader,String name) throws IOException  {
 		StringBuffer readData = new StringBuffer();
-		if (name.equals(TAGNAME) ) {
+		if (name.equals(getTAGNAME()) ) {
 			readData.append(readData(reader)).append("\n");
 		}else if(this.getNextHandler()!=null)  {
 			readData=(next.leer(reader,name));
@@ -36,16 +39,16 @@ public abstract class TemplateHander implements Handler {
 	    }
 	
 	 private StringBuffer readData(JsonReader reader) throws IOException {
-			StringBuffer ActiveIngData = new StringBuffer();
+			StringBuffer Data = new StringBuffer();
 			reader.beginArray();
 			while (reader.hasNext()) {
 				reader.beginObject();
-				ActiveIngData.append(readDataEntry(reader)).append("\n");
+				Data.append(readDataEntry(reader)).append("\n");
 				reader.endObject();
 			}
-			ActiveIngData.append("\n");
+			Data.append("\n");
 			reader.endArray();
-			return ActiveIngData;
+			return Data;
 		}
 	 
 	 public abstract String readDataEntry(JsonReader reader)throws IOException;

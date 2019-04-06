@@ -16,7 +16,6 @@ import com.google.gson.stream.JsonReader;
  */
 public class DatabaseJSonReader {
 
-
 	public DatabaseJSonReader(){}
 
 	public String parse(String jsonFileName,Handler handler) throws IOException {

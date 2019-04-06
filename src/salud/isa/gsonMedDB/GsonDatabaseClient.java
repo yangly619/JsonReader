@@ -8,16 +8,15 @@ public class GsonDatabaseClient {
 	public static void main(String[] args) throws IOException {
 		try{
 			DatabaseJSonReader dbjp = new DatabaseJSonReader();
-			HandlerReadMedicine readmed =new HandlerReadMedicine();
-			HandlerRescueMedicinePresentations readresue =new HandlerRescueMedicinePresentations();
-			HandlerReadActiveIngredient activIng=new HandlerReadActiveIngredient();
-			prueba p=new prueba("physiotherapies");
+			
+			HandlerReadMedicine readmed =new HandlerReadMedicine("medicines");
+			HandlerRescueMedicinePresentations readresue =new HandlerRescueMedicinePresentations("rescueMedicinePresentations");
+			HandlerReadActiveIngredient activIng=new HandlerReadActiveIngredient("activeIngredients");
+
 			readmed.setNext(activIng);
 			activIng.setNext(readresue);
-			
-			readresue.setNext(p);
-			p.setNext(null);
-			
+			readresue.setNext(null);
+				
 				try {
 					System.out.println(dbjp.parse("datos.json",readmed));
 				} finally {
